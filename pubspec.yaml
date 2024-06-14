@@ -1,0 +1,43 @@
+name: dong_ho_bao_thuc
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+
+dependencies:
+  alarm: ^3.1.4
+  basic_utils: ^5.7.0
+  flextras: ^1.0.0
+  flutter:
+    sdk: flutter
+  flutter_local_notifications: ^17.1.2
+  intl: ^0.19.0
+  one_clock: ^2.0.1
+  path: ^1.9.0
+  permission_handler: ^11.3.1
+  provider: ^6.1.2
+  shared_preferences: ^2.2.3
+  sqflite: ^2.3.3+1
+  timezone: ^0.9.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/splash.jpg
+    - images/app_bar_large.jpg
+    - images/app_bar_small.jpg
+    - images/delete.jpg
+    - images/play.jpg
+    - assets/alarm_remix.mp3
+    - assets/super_mario.mp3
+    - assets/chiptune_alarm.mp3
+    - assets/clock_short.mp3
+    - assets/digital_alarm.mp3
+    - assets/oversimplified_alarm.mp3
