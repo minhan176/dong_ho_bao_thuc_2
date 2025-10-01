@@ -9,11 +9,15 @@ environment:
 dependencies:
   alarm: ^3.1.4
   basic_utils: ^5.7.0
+  cupertino_icons: ^1.0.8
   flextras: ^1.0.0
   flutter:
     sdk: flutter
   flutter_local_notifications: ^17.1.2
-  intl: ^0.19.0
+  glassmorphism: ^3.0.0
+  intl: ^0.20.2
+  liquid_glass_ui_design: ^1.0.5
+  oc_liquid_glass: ^0.2.1
   one_clock: ^2.0.1
   path: ^1.9.0
   permission_handler: ^11.3.1
@@ -26,15 +30,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  flutter_localizations:
+    sdk: flutter
 
 flutter:
   uses-material-design: true
   assets:
-    - images/splash.jpg
-    - images/app_bar_large.jpg
-    - images/app_bar_small.jpg
-    - images/delete.jpg
-    - images/play.jpg
+    - images/
     - assets/alarm_remix.mp3
     - assets/super_mario.mp3
     - assets/chiptune_alarm.mp3

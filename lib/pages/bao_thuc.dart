@@ -8,9 +8,13 @@ import 'package:dong_ho_bao_thuc/data.dart';
 import 'package:dong_ho_bao_thuc/screens/add_alarm.dart';
 import 'package:dong_ho_bao_thuc/screens/bao_thuc_rung.dart';
 import 'package:dong_ho_bao_thuc/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
+import 'package:oc_liquid_glass/oc_liquid_glass.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:liquid_glass_ui_design/liquid_glass_ui.dart';
 
 class BaoThucPage extends StatefulWidget {
   const BaoThucPage({super.key});
@@ -88,7 +92,7 @@ class _BaoThucPageState extends State<BaoThucPage>
       }
 
       res = await Navigator.push(context,
-          MaterialPageRoute(builder: (BuildContext context) {
+          CupertinoPageRoute(builder: (BuildContext context) {
         return AddAlarm(
             alarmSettings: settings,
             lapLaiList: lapLaiList,
@@ -96,7 +100,7 @@ class _BaoThucPageState extends State<BaoThucPage>
       }));
     } else {
       res = await Navigator.push(context,
-          MaterialPageRoute(builder: (BuildContext context) {
+          CupertinoPageRoute(builder: (BuildContext context) {
         return AddAlarm(
             alarmSettings: settings,
             lapLaiList: lapLaiList,
@@ -158,8 +162,8 @@ class _BaoThucPageState extends State<BaoThucPage>
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Expanded(
+    return Stack(children: [
+      Positioned.fill(
         child: alarms.isNotEmpty
             ? ListView.builder(
                 padding: EdgeInsets.all(8.0),
@@ -209,87 +213,110 @@ class _BaoThucPageState extends State<BaoThucPage>
                     onTap: () {
                       navigateToAlarmScreen(alarms[index]);
                     },
-                    child: Card(
-                      color: Colors.white,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            //color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(8.0)),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                deleteAlarm(alarms[index].id);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    'images/delete.jpg',
-                                    height: 25,
-                                    width: 25,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                      child: OCLiquidGlassGroup(
+                        settings: OCLiquidGlassSettings(
+                          blendPx: 20,
+                          specAngle: 0.8,
+                          refractStrength: -0.060,
+                          distortFalloffPx: 35,
+                          blurRadiusPx: 2,
+                          specStrength: 4,
+                          specWidth: 1.5,
+                          specPower: 4,
+                        ),
+                        child: OCLiquidGlass(
+                          borderRadius: 40,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  deleteAlarm(alarms[index].id);
+                                },
+                                icon: Icon(CupertinoIcons.delete),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 2),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      
+                                      Text(
+                                        TimeOfDay(
+                                          hour: alarms[index].dateTime.hour,
+                                          minute: alarms[index].dateTime.minute,
+                                        ).format(context),
+                                        style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w500,
+                                            height: 1.2
+                                            ),
+                                            
+                                      ),
+                                      Text(
+                                        alarms[index].notificationBody != '' ? alarms[index].notificationBody + ', ' + ngayLap : ngayLap,
+                                        style: Styles.label.copyWith(height: 1),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      alarms[index].notificationBody,
-                                      style: Styles.label,
-                                    ),
-                                    Text(
-                                      TimeOfDay(
-                                        hour: alarms[index].dateTime.hour,
-                                        minute: alarms[index].dateTime.minute,
-                                      ).format(context),
-                                      style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.pinkAccent[700]),
-                                    ),
-                                    Text(
-                                      ngayLap,
-                                      style: Styles.label,
-                                    ),
-                                  ],
+                              IconButton(
+                                icon: Icon(
+                                  CupertinoIcons.pencil_outline,
                                 ),
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.edit,
-                              ),
-                              onPressed: () {
-                                navigateToAlarmScreen(alarms[index]);
-                              },
-                            )
-                          ],
+                                onPressed: () {
+                                  navigateToAlarmScreen(alarms[index]);
+                                },
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   );
                 },
               )
-            : Center(
+            : Container(
+                alignment: Alignment.topCenter,
+                margin: EdgeInsets.only(top: 50),
                 child: Text(
                   'Không có báo thức nào',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 22),
                 ),
               ),
       ),
-      Container(
-        height: 100,
-        alignment: Alignment.center,
-        child: FilledButton(
-            onPressed: () {
-              navigateToAlarmScreen(null);
-            },
-            child: Icon(Icons.add)),
+      Positioned(
+        bottom: 30,
+        left: 0,
+        right: 0,
+        child: Container(
+          alignment: Alignment.center,
+          child: OCLiquidGlassGroup(
+                  settings: OCLiquidGlassSettings(
+                    blendPx: 20,
+                    specAngle: 0.8,
+                    refractStrength: -0.060,
+                    distortFalloffPx: 35,
+                    blurRadiusPx: 2,
+                    specStrength: 4,
+                    specWidth: 1.5,
+                    specPower: 4,
+                  ),
+                  child: OCLiquidGlass(
+                    borderRadius: 40,
+                    child: TextButton.icon(
+              onPressed: () {
+                navigateToAlarmScreen(null);
+              },
+              icon: Icon(Icons.add),
+              label: Text('Thêm báo thức'),
+            ))),
+        ),
       )
     ]);
   }
