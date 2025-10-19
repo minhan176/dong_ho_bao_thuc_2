@@ -238,13 +238,13 @@ class _BaoThucPageState extends State<BaoThucPage>
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 2),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 2),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      
                                       Text(
                                         TimeOfDay(
                                           hour: alarms[index].dateTime.hour,
@@ -253,12 +253,14 @@ class _BaoThucPageState extends State<BaoThucPage>
                                         style: TextStyle(
                                             fontSize: 22,
                                             fontWeight: FontWeight.w500,
-                                            height: 1.2
-                                            ),
-                                            
+                                            height: 1.2),
                                       ),
                                       Text(
-                                        alarms[index].notificationBody != '' ? alarms[index].notificationBody + ', ' + ngayLap : ngayLap,
+                                        alarms[index].notificationBody != ''
+                                            ? alarms[index].notificationBody +
+                                                ', ' +
+                                                ngayLap
+                                            : ngayLap,
                                         style: Styles.label.copyWith(height: 1),
                                       ),
                                     ],
@@ -291,33 +293,45 @@ class _BaoThucPageState extends State<BaoThucPage>
               ),
       ),
       Positioned(
-        bottom: 30,
-        left: 0,
-        right: 0,
-        child: Container(
-          alignment: Alignment.center,
-          child: OCLiquidGlassGroup(
-                  settings: OCLiquidGlassSettings(
-                    blendPx: 20,
-                    specAngle: 0.8,
-                    refractStrength: -0.060,
-                    distortFalloffPx: 35,
-                    blurRadiusPx: 2,
-                    specStrength: 4,
-                    specWidth: 1.5,
-                    specPower: 4,
-                  ),
-                  child: OCLiquidGlass(
-                    borderRadius: 40,
-                    child: TextButton.icon(
-              onPressed: () {
-                navigateToAlarmScreen(null);
-              },
-              icon: Icon(Icons.add),
-              label: Text('Thêm báo thức'),
-            ))),
-        ),
-      )
+          bottom: 30,
+          left: 0,
+          right: 0,
+          child: Container(
+            alignment: Alignment.center,
+            child: GlassmorphicContainer(
+              width: 160,
+              height: 45,
+              borderRadius: 35,
+              //padding: EdgeInsets.all(8),
+              blur: 14,
+              //alignment: Alignment.bottomCenter,
+              border: 2,
+              linearGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF0FFFF).withOpacity(0.2),
+                  Color(0xFF0FFFF).withOpacity(0.2),
+                ],
+              ),
+              borderGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF0FFFF).withOpacity(1),
+                  Color(0xFFFFFFF),
+                  Color(0xFF0FFFF).withOpacity(1),
+                ],
+              ),
+              child: TextButton.icon(
+                onPressed: () {
+                  navigateToAlarmScreen(null);
+                },
+                icon: Icon(Icons.add),
+                label: Text('Thêm báo thức'),
+              ),
+            ),
+          ))
     ]);
   }
 

@@ -5,6 +5,7 @@ import 'package:dong_ho_bao_thuc/pages/dong_ho.dart';
 import 'package:dong_ho_bao_thuc/pages/hen_gio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:oc_liquid_glass/oc_liquid_glass.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Icon(
                 icon,
-                color: isActive ? Colors.yellow[600] : Colors.white,
+                color: isActive ? Colors.yellow.shade600 : Colors.white,
                 size: 26,
               ),
             ),
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 label,
                 style: TextStyle(
-                  color: isActive ? Colors.yellow[600] : Colors.white,
+                  color: isActive ? Colors.yellow.shade600 : Colors.white,
                   fontSize: 13,
                   fontWeight: isActive ? FontWeight.w900 : FontWeight.bold,
                 ),
@@ -60,192 +61,106 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [
-      // Positioned.fill(
-      //     child: Image.asset(
-      //   'images/background.jpg',
-      //   fit: BoxFit.cover,
-      // )),
-      Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF2C2C2C), // Xám đậm
-              Color(0xFFB0B0B0), // Xám trung bình
-              Color(0xFFE0E0E0), // Xám nhạt
-              Color(0xFFFFFFFF),
-            ],
-            stops: [0.0, 0.3, 0.7, 1.0],
-          ),
-        ),
-      ),
+      Positioned.fill(
+          child: Image.asset(
+        'images/bg.jpg',
+        fit: BoxFit.cover,
+      )),
+      // Container(
+      //   decoration: const BoxDecoration(
+      //     gradient: LinearGradient(
+      //       begin: Alignment.topLeft,
+      //       end: Alignment.bottomRight,
+      //       colors: [
+      //         Color(0xFF2C2C2C), // Xám đậm
+      //         Color(0xFFB0B0B0), // Xám trung bình
+      //         Color(0xFFE0E0E0), // Xám nhạt
+      //       ],
+      //       stops: [0.0, 0.5, 1.0],
+      //     ),
+      //   ),
+      // ),
       Positioned.fill(
         child: Column(
           children: [
             Expanded(
                 child: SafeArea(
-                    child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: OCLiquidGlassGroup(
-                settings: OCLiquidGlassSettings(
-                  blendPx: 20,
-                  specAngle: 0.8,
-                  refractStrength: -0.060,
-                  distortFalloffPx: 35,
-                  blurRadiusPx: 2,
-                  specStrength: 4,
-                  specWidth: 1.5,
-                  specPower: 4,
+              child: GlassmorphicContainer(
+                width: double.infinity,
+                height: double.infinity,
+                margin: EdgeInsets.all(12),
+                borderRadius: 35,
+                padding: EdgeInsets.all(25),
+                blur: 14,
+                alignment: Alignment.bottomCenter,
+                border: 2,
+                linearGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF0FFFF).withOpacity(0.2),
+                    Color(0xFF0FFFF).withOpacity(0.2),
+                  ],
                 ),
-                child: OCLiquidGlass(borderRadius: 40, child: _PageStack()),
+                borderGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF0FFFF).withOpacity(1),
+                    Color(0xFFFFFFF),
+                    Color(0xFF0FFFF).withOpacity(1),
+                  ],
+                ),
+                child: _PageStack(),
               ),
-            ))),
+            )),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: OCLiquidGlassGroup(
-                settings: OCLiquidGlassSettings(
-                  blendPx: 20,
-                  specAngle: 0.8,
-                  refractStrength: -0.060,
-                  distortFalloffPx: 35,
-                  blurRadiusPx: 2,
-                  specStrength: 4,
-                  specWidth: 1.5,
-                  specPower: 4,
+              child: GlassmorphicContainer(
+                width: double.infinity,
+                height: 60,
+                borderRadius: 35,
+                //padding: EdgeInsets.all(8),
+                blur: 14,
+                alignment: Alignment.center,
+                border: 2,
+                linearGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF0FFFF).withOpacity(0.2),
+                    Color(0xFF0FFFF).withOpacity(0.2),
+                  ],
                 ),
-                child: OCLiquidGlass(
-                  borderRadius: 40,
-                  child: Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                          child: _buildNavItem(
-                              CupertinoIcons.alarm_fill, 'Alarm', 0)),
-                      Expanded(
-                          child: _buildNavItem(
-                              CupertinoIcons.clock_fill, 'Clock', 1)),
-                      Expanded(
-                          child: _buildNavItem(
-                              CupertinoIcons.timer_fill, 'Timer', 2)),
-                      Expanded(
-                          child: _buildNavItem(
-                              CupertinoIcons.stopwatch_fill, 'Stopwatch', 3)),
-                    ],
-                  ),
+                borderGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF0FFFF).withOpacity(1),
+                    Color(0xFFFFFFF),
+                    Color(0xFF0FFFF).withOpacity(1),
+                  ],
+                ),
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                        child: _buildNavItem(
+                            CupertinoIcons.alarm_fill, 'Alarm', 0)),
+                    Expanded(
+                        child: _buildNavItem(
+                            CupertinoIcons.clock_fill, 'Clock', 1)),
+                    Expanded(
+                        child: _buildNavItem(
+                            CupertinoIcons.timer_fill, 'Timer', 2)),
+                    Expanded(
+                        child: _buildNavItem(
+                            CupertinoIcons.stopwatch_fill, 'Stopwatch', 3)),
+                  ],
                 ),
               ),
             ),
             SizedBox(height: 30)
-            // GlassmorphicContainer(
-            //   height: 100,
-            //   width: double.infinity,
-            //   borderRadius: 35,
-            //   //padding: EdgeInsets.all(25),
-            //   blur: 90,
-            //   //alignment: Alignment.bottomCenter,
-            //   border: 2,
-            //   linearGradient: LinearGradient(
-            //     begin: Alignment.topLeft,
-            //     end: Alignment.bottomRight,
-            //     colors: [
-            //       Color(0xFF0FFFF).withOpacity(0.2),
-            //       Color(0xFF0FFFF).withOpacity(0.2),
-            //     ],
-            //   ),
-            //   borderGradient: LinearGradient(
-            //     begin: Alignment.topLeft,
-            //     end: Alignment.bottomRight,
-            //     colors: [
-            //       Color.fromARGB(15, 255, 255, 255).withOpacity(1),
-            //       Color.fromARGB(15, 255, 255, 255),
-            //       Color.fromARGB(15, 255, 255, 255).withOpacity(1),
-            //     ],
-            //   ),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //     children: [
-            //       _buildNavItem(CupertinoIcons.alarm, 'Alarm', 0),
-            //       _buildNavItem(CupertinoIcons.clock, 'Clock', 1),
-            //       _buildNavItem(CupertinoIcons.timer, 'Timer', 2),
-            //       _buildNavItem(CupertinoIcons.stopwatch, 'Stopwatch', 3),
-            //     ],
-            //   ),
-            // ),
-            // LiquidGlassEffect(
-            //   borderRadius: 32,
-            //   blurStrength: 20,
-            //   surfaceOpacity: 0.6,
-            //   reflectionIntensity: 0.2,
-
-            //   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            //   padding: const EdgeInsets.symmetric(
-            //     vertical: 12,
-            //     horizontal: 8,
-            //   ),
-            //   child: ,
-            // ),
-            //       child: SafeArea(
-            //         child: Padding(
-            //           padding: const EdgeInsets.all(8.0),
-            //           child: Column(
-            //             children: [
-            //               Expanded(
-            //                 child: Row(
-            //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //                   children: [
-            //                     Text(
-            //                       'Đồng h',
-            //                       style: Styles.titleLarge
-            //                           .copyWith(color: Colors.white),
-            //                     ),
-            //                     IconButton(
-            //                       icon:
-            //                           Icon(Icons.settings, color: Colors.white),
-            //                       onPressed: () => Navigator.push(
-            //                           context,
-            //                           MaterialPageRoute(
-            //                               builder: (context) => Settings())),
-            //                     )
-            //                   ],
-            //                 ),
-            //               ),
-
-            //               TabBar(
-            //                   unselectedLabelColor: Colors.white,
-            //                   indicatorSize: TabBarIndicatorSize.tab,
-            //                   indicatorColor: Colors.white,
-            //                   labelStyle:
-            //                       Styles.label.copyWith(color: Colors.white),
-            //                   dividerHeight: 0,
-            //                   tabs: [
-            //                     Tab(
-            //                       icon: Icon(Icons.alarm, color: Colors.white),
-            //                       text: 'Báo thức',
-            //                     ),
-            //                     Tab(
-            //                       icon: Icon(Icons.watch_later_outlined),
-            //                       text: 'Đồng hồ',
-            //                     ),
-            //                     Tab(
-            //                       icon: Icon(Icons.hourglass_bottom),
-            //                       text: 'Hẹn giờ',
-            //                     ),
-            //                     Tab(
-            //                       icon: Icon(Icons.watch_sharp),
-            //                       text: 'Bấm giờ',
-            //                     )
-            //                   ]),
-            //               SizedBox(
-            //                 height: 5,
-            //               )
-            //             ],
-            //           ),
-            //         ),
-            //       ),
-            //     )
-            //   ],
-            // ),
           ],
         ),
       ),

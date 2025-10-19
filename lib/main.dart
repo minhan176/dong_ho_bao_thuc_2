@@ -53,7 +53,7 @@ class MainApp extends StatelessWidget {
         ],
         debugShowCheckedModeBanner: false,
         theme: CupertinoThemeData(
-            primaryColor: Color.fromRGBO(255, 255, 255, 1),
+            primaryColor: Colors.yellow.shade700,
             brightness: Brightness.dark),
         home: SplashScreen(),
       ),

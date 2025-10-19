@@ -4,8 +4,11 @@ import 'dart:convert';
 import 'package:dong_ho_bao_thuc/data.dart';
 import 'package:dong_ho_bao_thuc/styles.dart';
 import 'package:flextras/flextras.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:intl/intl.dart';
+import 'package:oc_liquid_glass/oc_liquid_glass.dart';
 import 'package:one_clock/one_clock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -55,84 +58,164 @@ class _DongHoPageState extends State<DongHoPage> {
             Expanded(
               child: AnalogClock(
                 datetime: _dateTime,
+                minuteHandColor: Colors.white,
+                //digitalClockColor: Colors.white,
+                numberColor: Colors.white,
+                secondHandColor: Colors.yellow.shade600,
+                hourHandColor: Colors.white,
+                tickColor: Colors.white,
+                showDigitalClock: false,
+                showAllNumbers: true,
               ),
             ),
             Text(
               '${_dateTime.day} tháng ${_dateTime.month}, ${_dateTime.year}',
               textAlign: TextAlign.center,
-              style: Styles.titleSmall.copyWith(fontSize: 20),
+              style:
+                  Styles.titleSmall.copyWith(fontSize: 20, color: Colors.white),
             ),
-            _tzList.isNotEmpty
-                ? Card(
-                    color: Colors.white,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      height: 200,
-                      child: ListView(
-                        children: _tzList
-                            .map((title) {
-                              var detroit = tz.getLocation(title);
-                              var now = tz.TZDateTime.now(detroit);
-                              return Container(
-                                height: 50,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      title,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      DateFormat('kk:mm').format(now),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        _tzList.remove(title);
-                                        _saveTZ();
-                                      },
-                                      child: ClipOval(
-                                        child: Image.asset(
-                                          'images/delete.jpg',
-                                          height: 25,
-                                          width: 25,
-                                        ),
+            GlassmorphicFlexContainer(
+              flex: 1,
+              //margin: EdgeInsets.all(6),
+              borderRadius: 35,
+              margin: EdgeInsets.all(15),
+              padding: EdgeInsets.all(25),
+              blur: 14,
+              alignment: Alignment.bottomCenter,
+              border: 2,
+              linearGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF0FFFF).withOpacity(0.2),
+                  Color(0xFF0FFFF).withOpacity(0.2),
+                ],
+              ),
+              borderGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF0FFFF).withOpacity(1),
+                  Color(0xFFFFFFF),
+                  Color(0xFF0FFFF).withOpacity(1),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ListView(
+                      children: _tzList
+                          .map((title) {
+                            var detroit = tz.getLocation(title);
+                            var now = tz.TZDateTime.now(detroit);
+                            return Container(
+                              margin: EdgeInsets.only(top: 10),
+                              child: OCLiquidGlassGroup(
+                                  settings: OCLiquidGlassSettings(
+                                    blendPx: 20,
+                                    specAngle: 0.8,
+                                    refractStrength: -0.060,
+                                    distortFalloffPx: 35,
+                                    blurRadiusPx: 2,
+                                    specStrength: 4,
+                                    specWidth: 1.5,
+                                    specPower: 4,
+                                  ),
+                                  child: OCLiquidGlass(
+                                    borderRadius: 40,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            title,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
+                                          ),
+                                          Spacer(),
+                                          Text(
+                                            DateFormat('kk:mm').format(now),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              _tzList.remove(title);
+                                              _saveTZ();
+                                            },
+                                            icon: Icon(CupertinoIcons.delete_simple),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            })
-                            .toList()
-                            .reversed
-                            .toList(),
-                      ),
+                                    ),
+                                  )),
+                            );
+                          })
+                          .toList()
+                          .reversed
+                          .toList(),
                     ),
-                  )
-                : Container(),
-            Container(
-              height: 100,
-              alignment: Alignment.center,
-              child: FilledButton(
-                  onPressed: () async {
-                    String? result = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AddTimeZone()));
-                    if (result != null) {
-                      _tzList.add(result);
-                      _saveTZ();
-                    } else {
-                      setState(() {});
-                    }
-                  },
-                  child: Icon(Icons.add)),
-            )
+                  ),
+                  Positioned(
+                      bottom: 30,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: GlassmorphicContainer(
+                          width: 160,
+                          height: 45,
+                          borderRadius: 35,
+                          //padding: EdgeInsets.all(8),
+                          blur: 14,
+                          //alignment: Alignment.bottomCenter,
+                          border: 2,
+                          linearGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFF0FFFF).withOpacity(0.2),
+                              Color(0xFF0FFFF).withOpacity(0.2),
+                            ],
+                          ),
+                          borderGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFF0FFFF).withOpacity(1),
+                              Color(0xFFFFFFF),
+                              Color(0xFF0FFFF).withOpacity(1),
+                            ],
+                          ),
+                          child: TextButton.icon(
+                            onPressed: () async {
+                              String? result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddTimeZone()));
+                              if (result != null) {
+                                _tzList.add(result);
+                                _saveTZ();
+                              } else {
+                                setState(() {});
+                              }
+                            },
+                            icon: Icon(Icons.add),
+                            label: Text('Thêm thành phố'),
+                          ),
+                        ),
+                      ))
+                ],
+              ),
+            ),
           ]),
     );
   }
@@ -149,6 +232,7 @@ class _AddTimeZoneState extends State<AddTimeZone> {
   late TextEditingController _controller;
   final tzList = <String>[];
   List<String> searchList = <String>[];
+
   Future<DateTime> setup(String location) async {
     var detroit = tz.getLocation(location);
     return tz.TZDateTime.now(detroit);
